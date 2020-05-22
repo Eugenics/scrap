@@ -5,7 +5,6 @@ import sql_db as sql
 import gos_zak_scrap as gzs
 import rzd_scrap as rzd
 import rts_scrap as rts
-import ros_el_torg_scrap as rel
 import tek as tek
 import zakaz_rf as zrf
 import selenium_sb_rf_scrap as sb

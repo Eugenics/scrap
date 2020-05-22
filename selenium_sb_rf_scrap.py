@@ -1,4 +1,5 @@
 import time
+import os
 
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
@@ -25,8 +26,7 @@ def search(platform: [], word: {}) -> []:
     print(word)
 
     print("Start service...")
-    service = Service(
-        'D:\\Projects\\Python\\scrap\\scripts\\chromedriver_win32\\chromedriver')
+    service = Service('\\'.join([os.path.dirname(os.path.abspath(__file__)),'chromedriver_win32\\chromedriver']))
     service.start()
     #time.sleep(10)
     driver = webdriver.Remote(service.service_url)
