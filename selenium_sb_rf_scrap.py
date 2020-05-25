@@ -26,18 +26,19 @@ def search(platform: [], word: {}) -> []:
     print(word)
 
     print("Start service...")
-    service = Service('\\'.join([os.path.dirname(os.path.abspath(__file__)),'chromedriver_win32\\chromedriver']))
+    service = Service('\\'.join([os.path.dirname(
+        os.path.abspath(__file__)), 'chromedriver_win32\\chromedriver']))
     service.start()
-    #time.sleep(10)
+    # time.sleep(10)
     driver = webdriver.Remote(service.service_url)
     print("Service started...")
-    #time.sleep(5)
+    # time.sleep(5)
 
     # driver = Chrome('D:\\Projects\\Python\\scrap\\scripts\\chromedriver_win32\\chromedriver')
     print("Get URL...")
-    driver.get('https://www.sberbank-ast.ru/UnitedPurchaseList.aspx')
+    driver.get(url)
     print("Got URL...")
-    time.sleep(10)    
+    time.sleep(10)
 
     # Get extra properties form elements
     extra_properties_element = driver.find_element_by_class_name(
@@ -54,23 +55,22 @@ def search(platform: [], word: {}) -> []:
     # Fill elements
     search_element.clear()
     date_from_element.clear()
-    #time.sleep(5)
+    # time.sleep(5)
     search_element.send_keys(word['word'])
-    date_from_element.send_keys(' '.join([search_date_from,'00:00']))
+    date_from_element.send_keys(' '.join([search_date_from, '00:00']))
 
     # Submit search
     submit_element.click()
     time.sleep(5)
 
-    
     # Page select
     print("Click pager select button...")
-    try:    #NoSuchElementException 
+    try:  # NoSuchElementException
         error = driver.find_elements_by_id('ErrorArea')
         page_select_element = driver.find_element_by_id('headerPagerSelect')
         page_select_element.send_keys('100')
-        print("Clicked...")        
-        time.sleep(5)            
+        print("Clicked...")
+        time.sleep(5)
     except:
         print("Pager select button not found...")
         driver.quit()
@@ -108,7 +108,7 @@ def search(platform: [], word: {}) -> []:
                 row["start_date"] = table_row[14].split()[0].strip()
                 row["end_date"] = table_row[16].split()[0].strip()
 
-                #print(row)
+                # print(row)
 
                 result.append(row)
             except:
@@ -131,7 +131,7 @@ def search(platform: [], word: {}) -> []:
 
     # Insert into db
     if len(result) > 0:
-        print("Запись в БД Сбербанк...")
+        print(''.join(["Запись в БД", platform["paltform_name"]], '...'))
         sql.create_row_object(platform, result)
 
     sql.update_platform_date(platform["id"])
