@@ -19,7 +19,13 @@ def search(platform: [], word: {}) -> []:
         word({}): Search word
     """
     url = platform["platform_url"]
-    search_date_from = '01.01.20' #platform["last_update"]
+    search_date_from = '01.01.20'  # platform["last_update"]
+
+    search_sub_url = 'https://www.roseltorg.ru/procedures/search_ajax?query_field=' + \
+        word['word']+'&customer=&status[]=0&status[]=1&status[]=2&status[]=3&status[]=4&region[]=04&region[]=17&region[]=19&region[]=22&region[]=24&region[]=38&region[]=42&region[]=54&region[]=55&region[]=70&currency=all&start_date_published=' + \
+        search_date_from+'&form_id=searchp_form&page=&from=11'
+    url = '?'.join([url, search_sub_url])
+
     result = []
 
     print(url)
@@ -41,21 +47,24 @@ def search(platform: [], word: {}) -> []:
     time.sleep(10)
 
     # Get extra properties form elements
-    extra_properties_element = driver.find_element_by_class_name('search-form__btn-advanced-search')
+    extra_properties_element = driver.find_element_by_class_name(
+        'search-form__btn-advanced-search')
     extra_properties_element.click()
     time.sleep(10)
 
     # Get search elements
-    search_element = driver.find_element_by_class_name('search-form__keywordinput')
+    search_element = driver.find_element_by_class_name(
+        'search-form__keywordinput')
     date_from_element = driver.find_element_by_id('edit-start-date-published')
-    submit_element = driver.find_element_by_class_name('button.search-form__button-submit.js-submit')
+    submit_element = driver.find_element_by_class_name(
+        'button.search-form__button-submit.js-submit')
 
     # Fill search elements
     search_element.clear()
     date_from_element.clear()
     time.sleep(5)
     search_element.send_keys(word['word'])
-    date_from_element.send_keys(search_date_from)    
+    date_from_element.send_keys(search_date_from)
 
     # Submit search
     time.sleep(5)
@@ -63,21 +72,21 @@ def search(platform: [], word: {}) -> []:
     time.sleep(5)
 
     # Find results
-    print('Findig results...')    
+    print('Findig results...')
     try:
-        search_result = driver.find_elements_by_class_name('search-results__info-text')
+        search_result = driver.find_elements_by_class_name(
+            'search-results__info-text')
         print('No results find...')
         driver.quit()
         service.stop()
         print("Service stoped...")
         return result
     except NoSuchElementException as exception:
-        print("Results find...")        
+        print("Results find...")
         print(exception.msg)
-    
+
     time.sleep(10)
-        
-    
+
     # Get table element
     #tables = driver.find_elements_by_class_name('es-reestr-tbl.its')
     # if len(tables) > 0:

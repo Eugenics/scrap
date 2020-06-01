@@ -6,7 +6,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.remote.webelement import WebElement
 
-import sql_db as sql
+import sql_db as sqlc
 
 
 def search(platform: [], word: {}) -> []:
