@@ -18,7 +18,7 @@ def get_scrap(url, params, region):
 
     html_page = requests.get(url, headers=headers, params=params)
 
-    #print(html_page.url)
+    print(html_page.url)
     #print(html_page.status_code)
 
     if html_page.status_code != 200:
@@ -115,14 +115,14 @@ def search(platform: [], words: []) -> []:
     
     
     for region in regions:
-        #print(region)
+        print(region)
         for word in words:
-            #print(word["word"])            
+            print(word["word"])            
             params = {
                 "Filter": "1",
                 "OrderName": word["word"],
                 "RegionRF": region["code"],
-                "ChangeDateTimeFrom": ticks,
+                "PublicationDateTimeFrom": ticks,
                 "ExpandFilter": "1"
             }
             result_list = result_list + get_scrap(url, params, region["name"])
@@ -134,4 +134,5 @@ def search(platform: [], words: []) -> []:
     
     sql.update_platform_date(platform["id"])
     print(' '.join(["End",platform['platform_name'],'...']))
+    
     return result_list

@@ -107,6 +107,8 @@ def search(platform: [], words: []) -> []:
             "fl": "True",
             "SearchForm.Keywords": word["word"],
             "SearchForm.DatePublishedFrom": search_date_from,
+            "SearchForm.Region": "0400000000000|5,1700000000000|5,1900000000000|5,2200000000000|5,2400000000000|5,3800000000000|5,4200000000000|5,5400000000000|5,5500000000000|5,7000000000000|5",
+            "FilterData.PageSize": "2000",
             # "SearchForm.State": "1",
             # "SearchForm.TenderRuleIds": "1",
             # "SearchForm.TenderRuleIds": "2",
@@ -114,8 +116,7 @@ def search(platform: [], words: []) -> []:
             # "SearchForm.TenderRuleIds": "4",
             # "SearchForm.TenderRuleIds": "5",
             # "SearchForm.MarketPlaceIds": "5",
-            # "SearchForm.CurrencyCode": "undefined",
-            # "FilterData.PageSize": "2000",
+            # "SearchForm.CurrencyCode": "undefined",            
             # "FilterData.PageCount": "1",
             # "FilterData.SortingField": "DatePublished",
             # "FilterData.SortingDirection": "Desc"

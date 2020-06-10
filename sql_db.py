@@ -43,6 +43,53 @@ def get_search_words():
     return json.dumps(result_list, ensure_ascii=False)
 
 
+def get_exclude_words():
+    conn = create_db_connection()
+
+    result_list = []
+
+    sql_string = "SELECT * FROM exclude_words"
+
+    try:
+        with conn:
+            sql_cursor = conn.cursor()
+            sql_cursor.execute(sql_string)
+
+            for row in sql_cursor.fetchall():
+                result_list.append({
+                    "id": row[0],
+                    "word": row[1]
+                })
+    except Error as e:
+        print(e)
+
+    return result_list
+
+
+def get_regions():
+    conn = create_db_connection()
+
+    result_list = []
+
+    sql_string = "SELECT * FROM regions"
+
+    try:
+        with conn:
+            sql_cursor = conn.cursor()
+            sql_cursor.execute(sql_string)
+
+            for row in sql_cursor.fetchall():
+                result_list.append({
+                    "id_region": row[0],
+                    "region_name": row[1],
+                    "region_code": row[2]
+                })
+    except Error as e:
+        print(e)
+
+    return result_list
+
+
 def get_search_platform():
     conn = create_db_connection()
 
@@ -60,7 +107,8 @@ def get_search_platform():
                         "id": row[0],
                         "platform_name": row[1],
                         "platform_url": row[2],
-                        "last_update": row[3]
+                        "last_update": row[3],
+                        "exclude_from_search": row[4]
                     }
                 )
     except Error as e:
@@ -70,41 +118,12 @@ def get_search_platform():
 
 
 def create_row_object(platform, result_data):
-    regions = [
-        "Алтайский край",
-        "Республика Алтай",
-        "Республика Тыва",
-        "Республика Хакасия",
-        "Иркутская область",
-        "Красноярский край",
-        "Кемеровская область",
-        "Новосибирская область",
-        "Омская область",
-        "Томская область",
-        "СФО",
-        "не указан",
-        "не задано"
-    ]
+    regions_list = get_regions()
+    regions = []
+    for region in regions_list:
+        regions.append(region["region_name"])
 
-    exclude_words = [
-        "видеонаблюдение",
-        "мвд",
-        "фсб",
-        "фсин",
-        "войсковой",
-        "атмосферного",
-        "ремонт",
-        "медицинских",
-        "радиационный",
-        "радиоактивный",
-        "радиоактивных",
-        "финансовой",
-        "радиатор",
-        "электрохирургического",
-        "рентгеновских",
-        "реклама",
-        "маркетинг"
-    ]
+    exclude_words = get_exclude_words()
 
     sql_result = 0
     for row in result_data:
@@ -114,9 +133,9 @@ def create_row_object(platform, result_data):
         for ex_word in exclude_words:
             #print(row)
             #print(ex_word)
-            #print(row["name"].find(ex_word))
-            if row["name"].find(ex_word) == -1:
-                ex = 1            
+            #print(row["name"].find(ex_word["word"]))
+            if row["name"].find(ex_word["word"]) > 0:
+                ex = 1
 
         if row["place"] in regions and ex == 0:  # Если нужный регион и нет слов исключения
             print(row)
