@@ -1,3 +1,5 @@
 {
-    "python.pythonPath": "L:\\Django\\scrap\\envscrap\\Scripts\\python.exe"
+    "python.pythonPath": "L:\\Django\\scrap\\envscrap\\Scripts\\python.exe",
+    "python.linting.pylintEnabled": true,
+    "python.linting.enabled": true
 }

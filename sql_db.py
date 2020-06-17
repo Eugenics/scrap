@@ -162,15 +162,16 @@ def create_row_object(platform, result_data):
 
 
 def insert_row_object(sql_object):
-    # print(sql_object)
+    #print(sql_object)
     conn = create_db_connection()
 
     sql_string = '''INSERT INTO search_result(id_platform,start_date,end_date,url_string,create_date,result_number,result_type,result_text,result_place)
-                    VALUES(?,?,?,?,?,?,?,?,?)
-                    WHERE ? NOT IN (SELECT sr.result_number FROM search_results sr)'''
+                    SELECT ?,?,?,?,?,?,?,?,?
+                    WHERE ? NOT IN (SELECT sr2.result_number FROM search_result sr2)'''
 
     try:
         with conn:
+            print(sql_string)
             sql_cursor = conn.cursor()
             sql_cursor.execute(sql_string, sql_object)
         return 0
