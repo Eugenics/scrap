@@ -36,12 +36,12 @@ def main():
         if platform["platform_name"] == "Сбербанк" and platform["exclude_from_search"] == 0:
             try:
                 print(len(search_words_list))
-                for r in range(0, len(search_words_list), 4):
+                for r in range(0, len(search_words_list), count_of_selenium_processes):
                     print(r)
                     # Делим на 4 процесса
                     sub_words_list = []
-                    if len(search_words_list) - r > 4:
-                        sub_words_list = search_words_list[r:r + 4]
+                    if len(search_words_list) - r > count_of_selenium_processes:
+                        sub_words_list = search_words_list[r:r + count_of_selenium_processes]
                     else:
                         sub_words_list = search_words_list[r:r +
                                                            (len(search_words_list) - r)]
