@@ -149,7 +149,8 @@ def create_row_object(platform, result_data):
                           row["number"],
                           row["type"],
                           row["name"],
-                          row["place"]
+                          row["place"],
+                          row["number"]
                           )
             print(sql_object)
             ret_val = insert_row_object(sql_object)
@@ -165,7 +166,8 @@ def insert_row_object(sql_object):
     conn = create_db_connection()
 
     sql_string = '''INSERT INTO search_result(id_platform,start_date,end_date,url_string,create_date,result_number,result_type,result_text,result_place)
-                    VALUES(?,?,?,?,?,?,?,?,?)'''
+                    VALUES(?,?,?,?,?,?,?,?,?)
+                    WHERE ? NOT IN (SELECT sr.result_number FROM search_results sr)'''
 
     try:
         with conn:
