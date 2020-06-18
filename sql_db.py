@@ -171,7 +171,7 @@ def insert_row_object(sql_object):
 
     try:
         with conn:
-            print(sql_string)
+           #print(sql_string)
             sql_cursor = conn.cursor()
             sql_cursor.execute(sql_string, sql_object)
         return 0

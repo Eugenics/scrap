@@ -6,7 +6,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.remote.webelement import WebElement
 
-import sql_db as sqlc
+import sql_db as sql
 
 
 def search(platform: [], word: {}) -> []:
@@ -131,7 +131,7 @@ def search(platform: [], word: {}) -> []:
 
     # Insert into db
     if len(result) > 0:
-        print(''.join(["Запись в БД", platform["paltform_name"]], '...'))
+        print(''.join(["Запись в БД", platform["platform_name"], '...']))
         sql.create_row_object(platform, result)
 
     sql.update_platform_date(platform["id"])

@@ -37,7 +37,7 @@ def get_pages(url):
         return {"status_code": "404", "page_count": 0}
 
 
-def get_scrap(url,search_date_from):
+def get_scrap(url, search_date_from):
     result = []
 
     headers = {
@@ -65,10 +65,14 @@ def get_scrap(url,search_date_from):
                 item_text = []
                 item_text = item.text.splitlines()
 
-                # print(item_text)
+                #print(item_text)
 
                 row = {}
                 row["start_date"] = search_date_from
+
+                if item.find(attrs={'class', 'search-results__time'}) == None:
+                    continue
+
                 if len(item.find(attrs={'class', 'search-results__time'}).text.split()) > 0:
                     date_value = item.find(
                         attrs={'class', 'search-results__time'}).text.split()[0].split('.')
@@ -155,13 +159,13 @@ def search(platform: [], words: []) -> []:
                 result = result + get_scrap(url, platform["last_update"])
 
     # Insert into db
-    #if len(result) > 0:
-    #    print(''.join(["Запись в БД", platform["platform_name"], '...']))
-    #    sql.create_row_object(platform, result)
+    if len(result) > 0:
+        print(''.join(["Запись в БД", platform["platform_name"], '...']))
+        sql.create_row_object(platform, result)
 
-    #sql.update_platform_date(platform["id"])
+    sql.update_platform_date(platform["id"])
 
-    print(len(result))
-    print(result)
+    #print(len(result))
+    #print(result)
 
     return result

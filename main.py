@@ -61,36 +61,8 @@ def main():
                             p.join()
                             print('End proccess: {}'.format(p.name))
             except:
-                print('Сбербанк Error!!!')
-        
-            try:
-                print(len(search_words_list))
-                for r in range(0, len(search_words_list), count_of_selenium_processes):
-                    print(r)
-                    # Делим на 4 процесса
-                    sub_words_list = []
-                    if len(search_words_list) - r > count_of_selenium_processes:
-                        sub_words_list = search_words_list[r:r + count_of_selenium_processes]
-                    else:
-                        sub_words_list = search_words_list[r:r +
-                                                           (len(search_words_list) - r)]
-
-                    print(sub_words_list)
-
-                    selenium_processes = []
-                    for word in sub_words_list:
-                        p = mp.Process(target=rad.search, args=(
-                            platform, word), name=' '.join(['Process', word['word']]))
-                        selenium_processes.append(p)
-                        print('Start proccess: {}'.format(p.name))
-                        p.start()
-                    
-                    if len(selenium_processes) > 0:
-                        for p in selenium_processes:
-                            p.join()
-                            print('End proccess: {}'.format(p.name))
-            except:
-                print('Сбербанк Error!!!')    
+                print('Сбербанк Error!!!')        
+              
 
     for platform in (platform for platform in platforms_list if platform["exclude_from_search"] == 0):
         if platform["platform_name"] == "Портал закупок":

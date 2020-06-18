@@ -158,13 +158,15 @@ def search(platform: [], words: []) -> []:
         # print(page_count)
 
         if page_count["status_code"] == 200 and page_count["page_count"] > 0:
-            # print(word["word"])
-            # print(page_count)
+            print(word["word"])
+            print(page_count)
 
             for p in range(page_count["page_count"]):
                 # print(p+1)
                 params["pageNumber"] = str(p+1).strip()
-                result_list = result_list + get_scrap(url, params)
+                ret_result = []
+                ret_result = get_scrap(url, params)
+                result_list = result_list + ret_result
 
     if len(result_list) > 0:
         print(' '.join(["Запись в БД",platform['platform_name'],'...']))
